@@ -2,7 +2,7 @@ import Usuario from "../models/usuario.mjs";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const SECRET_KEY = "mi_clave_secreta"; // puedes ponerlo en .env
+const SECRET_KEY = process.env.JWT_SECRET;
 
 export const register = async (req, res) => {
   try {

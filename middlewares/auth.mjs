@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-const SECRET_KEY = "mi_clave_secreta"; // mejor en .env
+const SECRET_KEY = process.env.JWT_SECRET;
 
 export const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;

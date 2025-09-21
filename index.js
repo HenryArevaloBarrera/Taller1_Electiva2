@@ -3,7 +3,7 @@ import { swaggerUi, swaggerDocs } from "./swagger.mjs";
 import routsComp from "./routes/compania.mjs";
 import routsJuegos from "./routes/juego.mjs";
 import routsAuth from "./routes/auth.mjs"; // <-- importamos rutas de usuarios
-
+import serverless from "serverless-http";
 // Conexión a la base de datos
 import "./drivers/conection-db.mjs";
 
