@@ -26,4 +26,4 @@ const JuegoSchema = new Schema(
   }
 );
 
-export default model("Juego", JuegoSchema);
+export default mongoose.models.Juego || mongoose.model("Juego", JuegoSchema);

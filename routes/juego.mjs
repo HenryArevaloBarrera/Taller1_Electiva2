@@ -1,5 +1,6 @@
 import express from "express";
 import { findAll, findById, save, update, deleteById } from "../controllers/controlles-juego.mjs";
+import { authMiddleware } from "../middlewares/auth.mjs"; // si quieres proteger rutas
 
 const router = express.Router();
 
@@ -60,11 +61,16 @@ router.get("/:id", findById);
  *                 type: string
  *               genero:
  *                 type: string
+ *               lanzamiento:
+ *                 type: number
+ *               compania:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Juego creado
  */
-router.post("/", save);
+// Aquí protegemos la creación con JWT usando authMiddleware
+router.post("/", authMiddleware, save);
 
 /**
  * @swagger
@@ -90,13 +96,17 @@ router.post("/", save);
  *                 type: string
  *               genero:
  *                 type: string
+ *               lanzamiento:
+ *                 type: number
+ *               compania:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Juego actualizado
  *       404:
  *         description: No se encontró el juego
  */
-router.put("/:id", update);
+router.put("/:id", authMiddleware, update);
 
 /**
  * @swagger
@@ -117,6 +127,6 @@ router.put("/:id", update);
  *       404:
  *         description: No se encontró el juego
  */
-router.delete("/:id", deleteById);
+router.delete("/:id", authMiddleware, deleteById);
 
 export default router;

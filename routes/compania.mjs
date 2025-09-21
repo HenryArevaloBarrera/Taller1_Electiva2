@@ -1,13 +1,21 @@
 import express from "express";
-import { findAll, findById, save, update, deleteById } from '../controllers/controlles-compania.mjs';
+import { findAll, findById, save, update, deleteById } from "../controllers/controlles-compania.mjs";
+import { authMiddleware } from "../middlewares/auth.mjs"; // protege rutas con JWT
 
 const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Compañías
+ *   description: Gestión de compañías
+ */
+
+/**
+ * @swagger
  * /comps:
  *   get:
- *     summary: Obtiene todas las compañías
+ *     summary: Obtener todas las compañías
  *     tags: [Compañías]
  *     responses:
  *       200:
@@ -19,7 +27,7 @@ router.get("/", findAll);
  * @swagger
  * /comps/{id}:
  *   get:
- *     summary: Obtiene una compañía por su ID
+ *     summary: Obtener una compañía por su ID
  *     tags: [Compañías]
  *     parameters:
  *       - in: path
@@ -40,7 +48,7 @@ router.get("/:id", findById);
  * @swagger
  * /comps:
  *   post:
- *     summary: Crea una nueva compañía
+ *     summary: Crear una nueva compañía
  *     tags: [Compañías]
  *     requestBody:
  *       required: true
@@ -49,23 +57,26 @@ router.get("/:id", findById);
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: number
  *               nombre:
  *                 type: string
  *               pais:
  *                 type: string
+ *               fundacion:
+ *                 type: number
+ *               empleados:
+ *                 type: number
  *     responses:
  *       201:
  *         description: Compañía creada exitosamente
  */
-router.post("/", save);
+// Protegemos la creación con JWT
+router.post("/", authMiddleware, save);
 
 /**
  * @swagger
  * /comps/{idcomp}:
  *   put:
- *     summary: Actualiza una compañía existente
+ *     summary: Actualizar una compañía existente
  *     tags: [Compañías]
  *     parameters:
  *       - in: path
@@ -85,19 +96,23 @@ router.post("/", save);
  *                 type: string
  *               pais:
  *                 type: string
+ *               fundacion:
+ *                 type: number
+ *               empleados:
+ *                 type: number
  *     responses:
  *       200:
  *         description: Compañía actualizada
  *       404:
  *         description: No se encontró la compañía
  */
-router.put("/:idcomp", update);
+router.put("/:idcomp", authMiddleware, update);
 
 /**
  * @swagger
  * /comps/{id}:
  *   delete:
- *     summary: Elimina una compañía
+ *     summary: Eliminar una compañía por ID
  *     tags: [Compañías]
  *     parameters:
  *       - in: path
@@ -112,6 +127,6 @@ router.put("/:idcomp", update);
  *       404:
  *         description: No se encontró la compañía
  */
-router.delete("/:id", deleteById);
+router.delete("/:id", authMiddleware, deleteById);
 
 export default router;

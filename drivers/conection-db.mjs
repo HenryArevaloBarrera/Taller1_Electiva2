@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const URL = "mongodb+srv://Henry:Aa12345678@cluster0.lm4vhrm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+dotenv.config();
+
+const URL = process.env.MONGO_URI;
 
 mongoose.connect(URL)
   .then(() => console.log("✅ Conectado a MongoDB Atlas"))

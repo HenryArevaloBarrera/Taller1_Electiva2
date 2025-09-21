@@ -1,4 +1,5 @@
 import Juego from "../models/juegos.mjs";
+import Compañia from "../models/compania.mjs"
 
 // Obtener todos los juegos
 async function findAll(req, res) {

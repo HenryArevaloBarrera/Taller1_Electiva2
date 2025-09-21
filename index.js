@@ -2,6 +2,7 @@ import express from "express";
 import { swaggerUi, swaggerDocs } from "./swagger.mjs";
 import routsComp from "./routes/compania.mjs";
 import routsJuegos from "./routes/juego.mjs";
+import routsAuth from "./routes/auth.mjs"; // <-- importamos rutas de usuarios
 
 // Conexión a la base de datos
 import "./drivers/conection-db.mjs";
@@ -15,8 +16,9 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 // Rutas principales
-app.use("/comps", routsComp);
-app.use("/juegos", routsJuegos);
+app.use("/api/auth", routsAuth);   // <-- rutas de registro/login
+app.use("/api/comps", routsComp);  // rutas de compañías
+app.use("/api/juegos", routsJuegos); // rutas de juegos
 
 // Documentación con Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));

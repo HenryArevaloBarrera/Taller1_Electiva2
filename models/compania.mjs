@@ -26,4 +26,4 @@ const CompaniaSchema = new Schema(
   }
 );
 
-export default model("Compania", CompaniaSchema);
+export default mongoose.models.Compania || mongoose.model("Compania", CompaniaSchema);
