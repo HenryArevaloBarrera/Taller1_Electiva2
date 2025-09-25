@@ -11,7 +11,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "", // Pon tu URL base aquí, por ejemplo "http://localhost:3000"
+        url: "https://taller1-electiva2.onrender.com/", // Pon tu URL base aquí, por ejemplo "http://localhost:3000"
       },
     ],
     components: {
