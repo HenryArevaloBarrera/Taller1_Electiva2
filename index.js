@@ -1,27 +1,37 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+
 import express from "express";
 import { swaggerUi, swaggerDocs } from "./swagger.mjs";
 import routsComp from "./routes/compania.mjs";
 import routsJuegos from "./routes/juego.mjs";
-import routsAuth from "./routes/auth.mjs"; // <-- importamos rutas de usuarios
+import routsAuth from "./routes/auth.mjs";
 import serverless from "serverless-http";
-// Conexión a la base de datos
 import "./drivers/conection-db.mjs";
 
 const app = express();
 
-// Middleware para JSON
 app.use(express.json());
 
-// Configuración del puerto
-const PORT = process.env.PORT || 3000;
+// Configura EJS
+app.set('view engine', 'ejs');
+app.set('views', './views'); 
+
+// Ruta principal que renderiza index.ejs
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Inicio' });
+});
 
 // Rutas principales
-app.use("/api/auth", routsAuth);   // <-- rutas de registro/login
-app.use("/api/comps", routsComp);  // rutas de compañías
-app.use("/api/juegos", routsJuegos); // rutas de juegos
+app.use("/api/auth", routsAuth);
+app.use("/api/comps", routsComp);
+app.use("/api/juegos", routsJuegos);
 
 // Documentación con Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Configuración del puerto
+const PORT = process.env.PORT || 3000;
 
 // Servidor escuchando
 app.listen(PORT, () => {

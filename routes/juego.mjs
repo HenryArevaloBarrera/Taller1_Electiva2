@@ -1,6 +1,6 @@
 import express from "express";
 import { findAll, findById, save, update, deleteById } from "../controllers/controlles-juego.mjs";
-import { authMiddleware } from "../middlewares/auth.mjs"; // si quieres proteger rutas
+import { authMiddleware } from "../middlewares/auth.mjs"; // protege rutas con JWT
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /juegos:
+ * /api/juegos:
  *   get:
  *     summary: Obtener todos los juegos
  *     tags: [Juegos]
@@ -21,11 +21,11 @@ const router = express.Router();
  *       200:
  *         description: Lista de juegos
  */
-router.get("/", findAll);
+router.get("/",authMiddleware, findAll);
 
 /**
  * @swagger
- * /juegos/{id}:
+ * /api/juegos/{id}:
  *   get:
  *     summary: Obtener un juego por ID
  *     tags: [Juegos]
@@ -42,14 +42,16 @@ router.get("/", findAll);
  *       404:
  *         description: No se encontró el juego
  */
-router.get("/:id", findById);
+router.get("/:id",authMiddleware,findById);
 
 /**
  * @swagger
- * /juegos:
+ * /api/juegos:
  *   post:
  *     summary: Crear un nuevo juego
  *     tags: [Juegos]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -69,15 +71,16 @@ router.get("/:id", findById);
  *       201:
  *         description: Juego creado
  */
-// Aquí protegemos la creación con JWT usando authMiddleware
 router.post("/", authMiddleware, save);
 
 /**
  * @swagger
- * /juegos/{id}:
+ * /api/juegos/{id}:
  *   put:
  *     summary: Actualizar un juego por ID
  *     tags: [Juegos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -110,10 +113,12 @@ router.put("/:id", authMiddleware, update);
 
 /**
  * @swagger
- * /juegos/{id}:
+ * /api/juegos/{id}:
  *   delete:
  *     summary: Eliminar un juego por ID
  *     tags: [Juegos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

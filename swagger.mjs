@@ -11,11 +11,25 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://taller1-electiva2.vercel.app",
+        url: "", // Pon tu URL base aquí, por ejemplo "http://localhost:3000"
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
       },
     ],
   },
-  apis: ["./routes/*.mjs"], // Aquí Swagger leerá las anotaciones en tus rutas
+  apis: ["./routes/*.mjs"], 
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);

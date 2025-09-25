@@ -13,7 +13,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /comps:
+ * /api/comps:
  *   get:
  *     summary: Obtener todas las compañías
  *     tags: [Compañías]
@@ -21,11 +21,11 @@ const router = express.Router();
  *       200:
  *         description: Lista de compañías obtenida correctamente
  */
-router.get("/", findAll);
+router.get("/", authMiddleware,findAll);
 
 /**
  * @swagger
- * /comps/{id}:
+ * /api/comps/{id}:
  *   get:
  *     summary: Obtener una compañía por su ID
  *     tags: [Compañías]
@@ -42,14 +42,16 @@ router.get("/", findAll);
  *       404:
  *         description: No se encontró la compañía
  */
-router.get("/:id", findById);
+router.get("/:id", authMiddleware,findById);
 
 /**
  * @swagger
- * /comps:
+ * /api/comps:
  *   post:
  *     summary: Crear una nueva compañía
  *     tags: [Compañías]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -69,18 +71,19 @@ router.get("/:id", findById);
  *       201:
  *         description: Compañía creada exitosamente
  */
-// Protegemos la creación con JWT
 router.post("/", authMiddleware, save);
 
 /**
  * @swagger
- * /comps/{idcomp}:
+ * /api/comps/{id}:
  *   put:
  *     summary: Actualizar una compañía existente
  *     tags: [Compañías]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: idcomp
+ *         name: id
  *         required: true
  *         description: ID de la compañía a actualizar
  *         schema:
@@ -106,14 +109,16 @@ router.post("/", authMiddleware, save);
  *       404:
  *         description: No se encontró la compañía
  */
-router.put("/:idcomp", authMiddleware, update);
+router.put("/:id", authMiddleware, update);
 
 /**
  * @swagger
- * /comps/{id}:
+ * /api/comps/{id}:
  *   delete:
  *     summary: Eliminar una compañía por ID
  *     tags: [Compañías]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
