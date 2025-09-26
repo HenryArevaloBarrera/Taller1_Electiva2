@@ -9,8 +9,11 @@ import routsAuth from "./routes/auth.mjs";
 import serverless from "serverless-http";
 import "./drivers/conection-db.mjs";
 
-const app = express();
 
+
+const app = express();
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 app.use(express.json());
 
 // Configura EJS
